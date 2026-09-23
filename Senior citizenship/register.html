@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Registration</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+<h1>Senior Citizen Registration</h1>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="medical.html">Medical</a>
+<a href="legal.html">Legal</a>
+<a href="mental.html">Mental Health</a>
+<a href="register.html">Register</a>
+<a href="contact.html">Contact</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h2>Registration Form</h2>
+
+<p>Please fill in your details.</p>
+
+</section>
+
+<section style="padding:40px; max-width:700px; margin:auto;">
+
+<form>
+
+<label>Full Name</label><br>
+<input type="text" placeholder="Enter Full Name" required><br><br>
+
+<label>Age</label><br>
+<input type="number" placeholder="Enter Age" required><br><br>
+
+<label>Gender</label><br>
+
+<select required>
+<option>Select</option>
+<option>Male</option>
+<option>Female</option>
+<option>Other</option>
+</select><br><br>
+
+<label>Phone Number</label><br>
+<input type="tel" placeholder="Enter Phone Number" required><br><br>
+
+<label>Emergency Contact Number</label><br>
+<input type="tel" placeholder="Emergency Contact"><br><br>
+
+<label>Blood Group</label><br>
+
+<select>
+<option>Select Blood Group</option>
+<option>A+</option>
+<option>A-</option>
+<option>B+</option>
+<option>B-</option>
+<option>AB+</option>
+<option>AB-</option>
+<option>O+</option>
+<option>O-</option>
+</select><br><br>
+
+<label>Medical Condition</label><br>
+
+<select>
+<option>None</option>
+<option>Diabetes</option>
+<option>Hypertension</option>
+<option>Asthma</option>
+<option>Heart Disease</option>
+<option>Arthritis</option>
+<option>Other</option>
+</select><br><br>
+
+<label>Current Medicines</label><br>
+<textarea rows="4" placeholder="Enter Medicines"></textarea><br><br>
+
+<label>Address</label><br>
+<textarea rows="4" placeholder="Enter Address"></textarea><br><br>
+
+<label>Describe Your Problem</label><br>
+<textarea rows="5" placeholder="Explain your problem"></textarea><br><br>
+
+<button type="submit">Register</button>
+
+</form>
+
+</section>
+
+<footer>
+
+<p>Support Number: 9952215218</p>
+
+<p>©2026 Senior Citizen Help Desk</p>
+
+</footer>
+<script>
+document.querySelector("form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    const data = {
+        fullName: formData.get("fullName"),
+        age: formData.get("age"),
+        gender: formData.get("gender"),
+        phone: formData.get("phone"),
+        emergencyContact: formData.get("emergencyContact"),
+        bloodGroup: formData.get("bloodGroup"),
+        medicalCondition: formData.get("medicalCondition"),
+        currentMedicines: formData.get("currentMedicines"),
+        address: formData.get("address"),
+        problem: formData.get("problem")
+    };
+
+    try {
+        const response = await fetch(
+            "http://localhost:5000/api/users/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }
+        );
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Registration Successful!");
+            this.reset();
+        } else {
+            alert(result.message);
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Cannot connect to server. Please start the backend.");
+    }
+});
+</script>
+</body>
+</html>
